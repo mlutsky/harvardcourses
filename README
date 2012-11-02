@@ -1,0 +1,33 @@
+# clone repo into ~/vhosts/mlutsky1231
+cd ~/vhosts
+git clone git@bitbucket.org:mlutsky1231/project0.git mlutsky1231
+
+# chmod all directories 711
+find ~/vhosts/mlutsky1231 -type d -exec chmod 711 {} \;
+
+# chmod all PHP files 600
+find ~/vhosts/mlutsky1231 -type f -name *.php -exec chmod 600 {} \;
+
+# chmod most everything else 644
+find ~/vhosts/mlutsky1231 -type f \( -name *.css -o -name *.gif -o -name *.html -o -name *.js -o -name *.jpg -o -name *.png -o -name .htaccess \) -exec chmod 644 {} \;
+
+# create a MySQL database for project
+mysql -u jharvard -p -e 'CREATE DATABASE jharvard_mlutsky1231'
+
+# import SQL dump into database
+mysql -u jharvard -p < ~/vhosts/mlutsky1231/mysql/jharvard_project0.sql
+
+# ensure http://mlutsky1231/ will work
+set -o noclobber
+echo '127.0.0.1 mlutsky1231' >> /etc/hosts
+
+# updates since beta:
+* fixed all bugs with lists of courses shopping and taking
+* abstracted out javascript and css files to make codebase cleaner
+* switched to template inheritance scheme to dramatically reduce amount of code
+* improved search function to include partial matches to all fields
+* enabled "recently viewed" courses list using local storage
+* added "back" button to all pages except for courses viewed when coming from a page generated from the search form, because this causes an error due to jquery mobile's lack of support for re-submitting POST requests.
+* improved styling on most pages, added some more icons, and improved amount of information given on each course
+* added some finishing touches, such as "no courses to be shown yet" messages if you haven't shopped or taken a course yet, etc.
+* profited!
